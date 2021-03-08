@@ -1,0 +1,214 @@
+Enter password: ************
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.23 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2021, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+*********************************************** UC1 **********************************************
+mysql> create database Employee_Payroll;
+Query OK, 1 row affected (0.13 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| employee_payroll   |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.16 sec)
+
+mysql> use Employee_Payroll;
+Database changed
+
+***************************************************** UC2 **********************************************
+
+mysql> create table employee_payroll (
+    -> id int not null auto_increment,
+    -> name varchar(100) not null,
+    -> salary int,
+    -> start DATE NOT NULL,
+    -> PRIMARY KEY (id)
+    -> );
+Query OK, 0 rows affected (1.05 sec)
+
+*********************************************** UC3 **************************************************
+
+mysql> insert into employee_payroll ( name , salary , start ) values ('ABC',40000,CURDATE());
+Query OK, 1 row affected (0.16 sec)
+
+mysql> insert into employee_payroll ( name , salary , start ) values ('BCD',40000,CURDATE());
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into employee_payroll ( name , salary , start ) values ('CDF',50000,CURDATE());
+Query OK, 1 row affected (0.06 sec)
+
+mysql> insert into employee_payroll ( name , salary , start ) values ('DEF',60000,CURDATE());
+Query OK, 1 row affected (0.10 sec)
+
+mysql> insert into employee_payroll ( name , salary , start ) values ('EFG',70000,CURDATE());
+Query OK, 1 row affected (0.10 sec)
+
+**************************************** UC5 ************************************************
+
+mysql> SELECT * FROM Employee_PayrolL;
++----+------+--------+------------+
+| id | name | salary | start      |
++----+------+--------+------------+
+|  1 | ABC  |  40000 | 2021-03-08 |
+|  2 | BCD  |  40000 | 2021-03-08 |
+|  3 | CDF  |  50000 | 2021-03-08 |
+|  4 | DEF  |  60000 | 2021-03-08 |
+|  5 | EFG  |  70000 | 2021-03-08 |
++----+------+--------+------------+
+5 rows in set (0.00 sec)
+
+
+mysql> SELECT * FROM employee_payroll
+    -> WHERE start BETWEEN CAST('2018-01-25'AS DATE) AND DATE(NOW());
++----+------+--------+------------+
+| id | name | salary | start      |
++----+------+--------+------------+
+|  1 | ABC  |  40000 | 2021-03-08 |
+|  2 | BCD  |  40000 | 2021-03-08 |
+|  3 | CDF  |  50000 | 2021-03-08 |
+|  4 | DEF  |  60000 | 2021-03-08 |
+|  5 | EFG  |  70000 | 2021-03-08 |
++----+------+--------+------------+
+5 rows in set (0.02 sec)
+
+*************************************** UC6 ****************************************
+mysql> ALTER TABLE employee_payroll ADD gender CHAR(1) AFTER name;
+Query OK, 0 rows affected (1.47 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+
+mysql> SELECT * FROM employee_payroll;
++----+------+--------+--------+------------+
+| id | name | gender | salary | start      |
++----+------+--------+--------+------------+
+|  1 | ABC  | NULL   |  40000 | 2021-03-08 |
+|  2 | BCD  | NULL   |  40000 | 2021-03-08 |
+|  3 | CDF  | NULL   |  50000 | 2021-03-08 |
+|  4 | DEF  | NULL   |  60000 | 2021-03-08 |
+|  5 | EFG  | NULL   |  70000 | 2021-03-08 |
++----+------+--------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update employee_payroll set Gender='M' where name = 'rohit' or name = 'abc' ;
+Query OK, 1 row affected (0.12 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM employee_payroll;
++----+------+--------+--------+------------+
+| id | name | gender | salary | start      |
++----+------+--------+--------+------------+
+|  1 | ABC  | M      |  40000 | 2021-03-08 |
+|  2 | BCD  | NULL   |  40000 | 2021-03-08 |
+|  3 | CDF  | NULL   |  50000 | 2021-03-08 |
+|  4 | DEF  | NULL   |  60000 | 2021-03-08 |
+|  5 | EFG  | NULL   |  70000 | 2021-03-08 |
++----+------+--------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> update employee_payroll set Gender='M' where name = 'bcd' ;
+Query OK, 1 row affected (0.05 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set Gender='M' where  name = 'cdf' ;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set Gender='F' where  name = 'def' ;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update employee_payroll set Gender='F' where  name = 'EFG' ;
+Query OK, 1 row affected (0.10 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM employee_payroll;
++----+------+--------+--------+------------+
+| id | name | gender | salary | start      |
++----+------+--------+--------+------------+
+|  1 | ABC  | M      |  40000 | 2021-03-08 |
+|  2 | BCD  | M      |  40000 | 2021-03-08 |
+|  3 | CDF  | M      |  50000 | 2021-03-08 |
+|  4 | DEF  | F      |  60000 | 2021-03-08 |
+|  5 | EFG  | F      |  70000 | 2021-03-08 |
++----+------+--------+--------+------------+
+5 rows in set (0.00 sec)
+
+*********************************** UC 7 ********************************************************
+mysql> SELECT AVG(salary) FROM employee_payroll WHERE gender = 'M' GROUP BY gender;
++-------------+
+| AVG(salary) |
++-------------+
+|  43333.3333 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql>  SELECT AVG(salary) FROM employee_payroll WHERE gender = 'M' GROUP BY gender;
++-------------+
+| AVG(salary) |
++-------------+
+|  43333.3333 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(salary) FROM employee_payroll WHERE gender = 'F';
++-------------+
+| AVG(salary) |
++-------------+
+|  65000.0000 |
++-------------+
+1 row in set (0.00 sec)
+
+
+mysql> SELECT AVG(salary) FROM employee_payroll GROUP BY gender;
++-------------+
+| AVG(salary) |
++-------------+
+|  43333.3333 |
+|  65000.0000 |
++-------------+
+2 rows in set (0.02 sec)
+
+mysql> SELECT gender, AVG(salary) FROM employee_payroll GROUP BY gender;
++--------+-------------+
+| gender | AVG(salary) |
++--------+-------------+
+| M      |  43333.3333 |
+| F      |  65000.0000 |
++--------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT gender, COUNT(name) FROM employee_payroll GROUP BY gender;
++--------+-------------+
+| gender | COUNT(name) |
++--------+-------------+
+| M      |           3 |
+| F      |           2 |
++--------+-------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT gender, SUM(salary) FROM employee_payroll GROUP BY gender;
++--------+-------------+
+| gender | SUM(salary) |
++--------+-------------+
+| M      |      130000 |
+| F      |      130000 |
++--------+-------------+
+2 rows in set (0.00 sec)
+
+mysql>
